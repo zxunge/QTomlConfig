@@ -1,0 +1,11 @@
+//# This file is a part of QTomlConfig and is subject to the the terms of the MIT license.
+//# Copyright (c) zxunge <3396563372@qq.com>
+//# See https://github.com/zxunge/QTomlConfig/blob/main/LICENSE for the full license text.
+// SPDX-License-Identifier: MIT
+
+#include "config.h"
+
+namespace QTomlConfig
+{
+    
+}
