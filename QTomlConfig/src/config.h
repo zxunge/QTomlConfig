@@ -7,6 +7,8 @@
 #define QTOMLCONFIG_CONFIG_H_
 
 #include "error.h"
+#include <QString>
+#include <QVariant>
 
 namespace QTomlConfig : public QObject
 {
@@ -15,12 +17,21 @@ namespace QTomlConfig : public QObject
         
     };
     
+    class ConfigItem
+    {
+    siganls:
+        void errorReached(const TCFGError &err);
+        
+    public:
+        ConfigItem(const QString &key, const QVariant &val);
+    };
+    
     class ConfigMgr
     {
         Q_OBJECT
         
     siganls:
-        void errorReached(const TCFGError err);
+        void errorReached(const TCFGError &err);
         
     public:
         ConfigMgr();

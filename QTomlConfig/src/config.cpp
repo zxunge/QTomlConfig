@@ -8,4 +8,15 @@
 namespace QTomlConfig
 {
     
+ErrorHandler errors;
+
+ConfigItem::ConfigItem(const QString &key, const QVariant &val)
+{
+    connect(this, &errorReached, &errors, &Error::addToErrorList);
+    if (!check(val))
+        errorReached(Error(ErrCode::ERR_USER_TYPE_INCORRECT, tr(__FILE__ __LINE__ Q_FUNC_INFO "Unsupported initial item type.")));
+    else
+    
+}
+
 }

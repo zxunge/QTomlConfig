@@ -11,9 +11,20 @@
 
 namespace QTomlConfig
 {
-    enum class ErrCode {  };
-    typedef QMap<ErrCode, QString> TCFGError;
-    class Error : public QObject
+    enum class ErrCode { ERR_FILE_OPEN, 
+                         ERR_TOML_SYNTAX_ERROR, 
+                         ERR_USER_TYPE_INCORRECT };
+                       
+    // Auxiliary error type class  
+    class Error
+    {
+    private:
+        QMap<ErrCode, QString> m_error;
+    public:
+        Error(ErrCode cd, const QString &info) { m_error.insert(cd, info); }
+    };
+    
+    class ErrorHandler : public QObject
     {
         Q_OBJECT
         
