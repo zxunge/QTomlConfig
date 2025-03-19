@@ -43,12 +43,20 @@ ConfigItem::ConfigItem(const QString &key, const QVariant &val)
     }
 }
 
-// -------------Implementation of ConfigGroup-----------------
+// -------------Implementation of ConfigTable-----------------
 ConfigTable::ConfigTable(const QString &name, std::initializer_list<ConfigItem> args)
 {
     for (auto item : args) 
-        m_group.push_back(item);
+        m_table.push_back(item);
     m_name = name;
+}
+
+ConfigItem ConfigTable::operator[](const QString &key) const
+{
+    for (auto t : m_table)
+        if (t.key() == key)
+            return t;
+    return ConfigItem();
 }
 
 // -------------Implementation of ConfigMgr-----------------

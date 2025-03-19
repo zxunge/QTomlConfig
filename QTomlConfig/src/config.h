@@ -21,8 +21,10 @@ namespace QTomlConfig
         
     public:
         ConfigItem(const QString &key, const QVariant &val);
+        ConfigItem() { m_cfgItem = QPair<QString, QVariant>(); }
         static bool check(const QVariant &val) const;
         operator QVariant() const { return m_cfgItem.second; }
+        QString key() const { return m_cfgItem.first; }
         
     private:
         QPair<QString, QVariant> m_cfgItem;
