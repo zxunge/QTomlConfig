@@ -50,4 +50,14 @@ ConfigGroup::ConfigGroup(std::initializer_list<ConfigItem> args)
         m_group.push_back(item);
 }
 
+// -------------Implementation of ConfigMgr-----------------
+ConfigMgr::ConfigMgr(const QString &filename)
+{
+    m_file.setFileName(filename);
+    if (!m_file.exists())
+        emit errorReached(Error(ERR_FILE_NOT_EXISTING, tr(__FILE__ __LINE__ Q_FUNC_INFO "Not an existing file.")));
+    else if (!m_file.open(QIODevice::ReadWrite))
+        emit errorReached(Error(ERR_FILE_OPEN, tr(__FILE__ __LINE__ Q_FUNC_INFO "Unable to open file.")));
+}
+
 }

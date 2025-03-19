@@ -7,9 +7,8 @@
 #define QTOMLCONFIG_CONFIG_H_
 
 #include "error.h"
-#include <QString>
 #include <QVariant>
-#include <QList>
+#include <QFile>
 #include <initializer_list>
 
 namespace QTomlConfig : public QObject
@@ -36,7 +35,7 @@ namespace QTomlConfig : public QObject
         ConfigGroup(std::initializer_list<ConfigItem> args);
     };
     
-    class ConfigMgr
+    class ConfigMgr : public QObject
     {
         Q_OBJECT
         
@@ -44,7 +43,10 @@ namespace QTomlConfig : public QObject
         void errorReached(const Error &err);
         
     public:
-        ConfigMgr();
+        ConfigMgr(const QString &filename);
+        
+    private:
+        QFile m_file;
     };
 }
 

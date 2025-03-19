@@ -5,3 +5,25 @@
 
 #include "error.h"
 
+namespace QTomlConfig
+{
+
+void ErrorHandler::addToErrorList(const Error &err)
+{
+    m_errorList.push_back(err);
+}
+
+QList<Error> ErrorHandler::getAllErrors() const
+{
+    return m_errorList;
+}
+
+Error ErrorHandler::getLastError() const
+{
+    if (m_errorList.isEmpty())
+        return NoError;
+    else
+        return m_errorList.takeLast();
+}
+
+}
