@@ -10,8 +10,9 @@
 #include <QVariant>
 #include <QFile>
 #include <initializer_list>
+#include <toml++/toml.hpp>
 
-namespace QTomlConfig : public QObject
+namespace QTomlConfig
 {
     class ConfigItem
     {
@@ -20,19 +21,22 @@ namespace QTomlConfig : public QObject
         
     public:
         ConfigItem(const QString &key, const QVariant &val);
-        bool check(const QVariant &val) const;
+        static bool check(const QVariant &val) const;
+        operator QVariant() const { return m_cfgItem.second; }
         
     private:
         QPair<QString, QVariant> m_cfgItem;
     };
     
-    class ConfigGroup
+    class ConfigTable
     {
     private:
-        QList<ConfigItem> m_group;
+        QList<ConfigItem> m_table;
+        QString m_name;
     
     public:
-        ConfigGroup(std::initializer_list<ConfigItem> args);
+        ConfigTable(const QString &name, std::initializer_list<ConfigItem> args);
+        ConfigItem operator[](const QString &key) const;
     };
     
     class ConfigMgr : public QObject
@@ -44,9 +48,15 @@ namespace QTomlConfig : public QObject
         
     public:
         ConfigMgr(const QString &filename);
+        void add(const ConfigTable &table);
+        void add(const ConfigTable &table, const ConfigItem &item);
+        void add(const ConfigTable &table, const QString &key, const QVariant &val);
+        void add(const QString &table, const QString &key, const QVariant &val);
+        ConfigTable operator[](const QString &name) const;
         
     private:
         QFile m_file;
+        toml::table m_table;
     };
 }
 

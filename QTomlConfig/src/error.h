@@ -13,7 +13,7 @@
 
 namespace QTomlConfig
 {
-    // These types hold the errors thrown by QTomlConfignitself, not toml++ (the parser).
+    // These types hold the errors thrown by QTomlConfig itself, not toml++ (the parser).
     enum class ErrCode { ERR_FILE_OPEN, 
                          ERR_FILE_NOT_EXISTING,
                          ERR_USER_TYPE_INCORRECT };
