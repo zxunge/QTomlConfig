@@ -9,21 +9,31 @@
 #include "error.h"
 #include <QString>
 #include <QVariant>
+#include <QList>
+#include <initializer_list>
 
 namespace QTomlConfig : public QObject
 {
-    class ConfigGroup
-    {
-        
-    };
-    
     class ConfigItem
     {
     siganls:
-        void errorReached(const TCFGError &err);
+        void errorReached(const Error &err);
         
     public:
         ConfigItem(const QString &key, const QVariant &val);
+        bool check(const QVariant &val) const;
+        
+    private:
+        QPair<QString, QVariant> m_cfgItem;
+    };
+    
+    class ConfigGroup
+    {
+    private:
+        QList<ConfigItem> m_group;
+    
+    public:
+        ConfigGroup(std::initializer_list<ConfigItem> args);
     };
     
     class ConfigMgr
@@ -31,7 +41,7 @@ namespace QTomlConfig : public QObject
         Q_OBJECT
         
     siganls:
-        void errorReached(const TCFGError &err);
+        void errorReached(const Error &err);
         
     public:
         ConfigMgr();

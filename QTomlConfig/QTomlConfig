@@ -3,4 +3,5 @@
 //# See https://github.com/zxunge/QTomlConfig/blob/main/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
+#include "src/error.h"
 #include "src/config.h"
