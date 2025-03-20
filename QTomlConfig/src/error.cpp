@@ -18,7 +18,7 @@ QList<Error> ErrorHandler::getAllErrors() const
     return m_errorList;
 }
 
-Error ErrorHandler::getLastError() const
+Error ErrorHandler::getLastError()
 {
     if (m_errorList.isEmpty())
         return NoError;

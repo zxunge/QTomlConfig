@@ -14,16 +14,16 @@ ErrorHandler errors;
 // -------------Implementation of ConfigItem-----------------
 ConfigItem::ConfigItem(const QString &key, const QVariant &val)
 {
-    connect(this, &errorReached, &errors, &Error::addToErrorList);
+    connect(this, &ConfigItem::errorReached, &errors, &ErrorHandler::addToErrorList);
     if (!ConfigItem::check(val))
-        emit errorReached(Error(ErrCode::ERR_USER_TYPE_INCORRECT, tr(__FILE__ __LINE__ Q_FUNC_INFO "Unsupported initial item type.")));
+        emit errorReached(Error(ErrCode::ERR_USER_TYPE_INCORRECT, QString(__FILE__) + __LINE__ + Q_FUNC_INFO + tr("Unsupported initial item type.")));
     else
         m_cfgItem = QPair<QString, QVariant>(key, val);
 }
 
 // Checks if the provided value belongs to the native formats of TOML.
 // https://toml.io/en/v1.0.0#keyvalue-pair
-/* static */ bool ConfigItem::check(const QVariant &val) const
+/* static */ bool ConfigItem::check(const QVariant &val)
 {
     switch (val.type())
     {
@@ -46,14 +46,14 @@ ConfigItem::ConfigItem(const QString &key, const QVariant &val)
 // -------------Implementation of ConfigTable-----------------
 ConfigTable::ConfigTable(const QString &name, std::initializer_list<ConfigItem> args)
 {
-    for (auto item : args) 
+    for (const auto &item : args) 
         m_table.push_back(item);
     m_name = name;
 }
 
 ConfigItem ConfigTable::operator[](const QString &key) const
 {
-    for (auto t : m_table)
+    for (const auto &t : m_table)
         if (t.key() == key)
             return t;
     return ConfigItem();
@@ -62,36 +62,38 @@ ConfigItem ConfigTable::operator[](const QString &key) const
 // -------------Implementation of ConfigMgr-----------------
 ConfigMgr::ConfigMgr(const QString &filename)
 {
+    connect(this, &ConfigMgr::errorReached, &errors, &ErrorHandler::addToErrorList);
+    
     m_file.setFileName(filename);
     if (!m_file.exists())
-        emit errorReached(Error(ERR_FILE_NOT_EXISTING, tr(__FILE__ __LINE__ Q_FUNC_INFO "Not an existing file.")));
+        emit errorReached(Error(ErrCode::ERR_FILE_NOT_EXISTING, QString(__FILE__) + __LINE__ + Q_FUNC_INFO + tr("Not an existing file.")));
     else if (!m_file.open(QIODevice::ReadWrite))
-        emit errorReached(Error(ERR_FILE_OPEN, tr(__FILE__ __LINE__ Q_FUNC_INFO "Unable to open file.")));
+        emit errorReached(Error(ErrCode::ERR_FILE_OPEN, QString(__FILE__) + __LINE__ + Q_FUNC_INFO + tr("Unable to open file.")));
     else
-        m_table = toml::parse(m_file.readAll().toStdString());
+        m_result = toml::parse(m_file.readAll().toStdString());
 }
 
-void add(const ConfigTable &table)
+void ConfigMgr::add(const ConfigTable &table)
 {
     
 }
 
-void add(const ConfigTable &table, const ConfigItem &item)
+void ConfigMgr::add(const ConfigTable &table, const ConfigItem &item)
 {
     
 }
 
-void add(const ConfigTable &table, const QString &key, const QVariant &val)
+void ConfigMgr::add(const ConfigTable &table, const QString &key, const QVariant &val)
 {
     
 }
 
-void add(const QString &table, const QString &key, const QVariant &val)
+void ConfigMgr::add(const QString &table, const QString &key, const QVariant &val)
 {
     
 }
 
-ConfigTable operator[](const QString &name) const
+ConfigTable ConfigMgr::operator[](const QString &name) const
 {
     
 }

@@ -5,13 +5,18 @@
 
 #include "exttypes.h"
 
+namespace QTomlConfig
+{
+    
 // -------------Implementation of Array-----------------
 Array::Array(std::initializer_list<QVariant> args)
 {
-    for (auto v : args)
+    connect(this, &Array::errorReached, &errors, &ErrorHandler::addToErrorList);
+    
+    for (const auto &v : args)
     {
         if (!ConfigItem::check(v))
-            emit errorReached(Error(ErrCode::ERR_USER_TYPE_INCORRECT, tr(__FILE__ __LINE__ Q_FUNC_INFO "Unsupported initial item type.")));
+            emit errorReached(Error(ErrCode::ERR_USER_TYPE_INCORRECT, QString(__FILE__) + __LINE__ + Q_FUNC_INFO + tr("Unsupported initial item type.")));
         else
             m_arr.push_back(v);
     }
@@ -20,12 +25,14 @@ Array::Array(std::initializer_list<QVariant> args)
 // -------------Implementation of InlTable-----------------
 InlTable::InlTable(const ConfigTable &tbl)
 {
-    for (auto i : tbl.getAllItems())
+    for (const auto &i : tbl.getAllItems())
         m_tbl.push_back(i);
 }
 
 InlTable::InlTable(std::initializer_list<ConfigItem> args)
 {
-    for (auto i : args)
+    for (const auto &i : args)
         m_tbl.push_back(i);
+}
+
 }

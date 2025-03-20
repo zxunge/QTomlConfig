@@ -19,7 +19,7 @@ namespace QTomlConfig
                          ERR_TOML_SYNTAX };
                        
     typedef QPair<ErrCode, QString> Error;
-    constexpr auto NoError { Error() };        // Identifier for no errors.
+    const auto NoError { Error() };        // Identifier for no errors.
     
     class ErrorHandler : public QObject
     {
@@ -30,7 +30,7 @@ namespace QTomlConfig
         
     public:
         QList<Error> getAllErrors() const;
-        Error getLastError() const;
+        Error getLastError();
         
     private:
         QList<Error> m_errorList;

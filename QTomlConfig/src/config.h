@@ -20,15 +20,17 @@ namespace QTomlConfig
     {
         Q_OBJECT
         
-    siganls:
+    signals:
         void errorReached(const Error &err);
         
     public:
         ConfigItem(const QString &key, const QVariant &val);
+        ConfigItem(const ConfigItem &cfgItem) { m_cfgItem.first = cfgItem.key(); m_cfgItem.second = cfgItem.val(); }
         ConfigItem() { m_cfgItem = QPair<QString, QVariant>(); }
-        static bool check(const QVariant &val) const;
+        static bool check(const QVariant &val);
         operator QVariant() const { return m_cfgItem.second; }
         QString key() const { return m_cfgItem.first; }
+        QVariant val() const { return m_cfgItem.second; }
         
     private:
         QPair<QString, QVariant> m_cfgItem;
@@ -50,7 +52,7 @@ namespace QTomlConfig
     {
         Q_OBJECT
         
-    siganls:
+    signals:
         void errorReached(const Error &err);
         
     public:
@@ -63,7 +65,7 @@ namespace QTomlConfig
         
     private:
         QFile m_file;
-        toml::table m_table;
+        toml::parse_result m_result;
     };
 }
 

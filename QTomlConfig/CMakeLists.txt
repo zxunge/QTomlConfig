@@ -56,7 +56,11 @@ else()
     endif()
 endif()
 
-add_subdirectory(3rdparty/tomlplusplus)
+include_directories(3rdparty/tomlplusplus/include)
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    add_compile_options(-Wno-enum-compare-switch)
+endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 
