@@ -25,7 +25,13 @@ ConfigItem::ConfigItem(const QString &key, const QVariant &val)
 // https://toml.io/en/v1.0.0#keyvalue-pair
 /* static */ bool ConfigItem::check(const QVariant &val)
 {
-    switch (val.type())
+    switch (val.
+#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
+                typeId()
+#else
+                type()
+#endif
+    )
     {
     case QMetaType::QVariantList:
     case QMetaType::QString:

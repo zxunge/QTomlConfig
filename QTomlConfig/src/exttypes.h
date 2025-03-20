@@ -22,7 +22,7 @@ namespace QTomlConfig
         Array(std::initializer_list<QVariant> args);
     
     private:
-        QList<QVariant> m_arr;
+        QVariantList m_arr;
     };
     
     class InlTable : public QObject
