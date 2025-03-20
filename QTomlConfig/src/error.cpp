@@ -18,12 +18,12 @@ QList<Error> ErrorHandler::getAllErrors() const
     return m_errorList;
 }
 
-Error ErrorHandler::getLastError()
+Error ErrorHandler::getLastError() const
 {
     if (m_errorList.isEmpty())
         return NoError;
     else
-        return m_errorList.takeLast();
+        return m_errorList.last();
 }
 
 }

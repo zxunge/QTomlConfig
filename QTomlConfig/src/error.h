@@ -30,7 +30,7 @@ namespace QTomlConfig
         
     public:
         QList<Error> getAllErrors() const;
-        Error getLastError();
+        Error getLastError() const;
         
     private:
         QList<Error> m_errorList;
