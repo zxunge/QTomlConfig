@@ -4,4 +4,5 @@
 // SPDX-License-Identifier: MIT
 
 #include "src/error.h"
+#include "src/exttypes.h"
 #include "src/config.h"

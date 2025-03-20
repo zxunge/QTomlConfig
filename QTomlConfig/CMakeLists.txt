@@ -31,6 +31,7 @@ set(PROJECT_SOURCES
         src/error.cpp
         src/exttypes.h
         src/exttypes.cpp
+        QTomlConfig
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
