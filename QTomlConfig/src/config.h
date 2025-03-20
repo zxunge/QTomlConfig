@@ -10,12 +10,16 @@
 #include <QVariant>
 #include <QFile>
 #include <initializer_list>
+
+#define TOML_EXCEPTIONS 0         // Do not use exceptions, so that we can use our built-in handler.
 #include <toml++/toml.hpp>
 
 namespace QTomlConfig
 {
-    class ConfigItem
+    class ConfigItem : public QObject
     {
+        Q_OBJECT
+        
     siganls:
         void errorReached(const Error &err);
         
@@ -39,6 +43,7 @@ namespace QTomlConfig
     public:
         ConfigTable(const QString &name, std::initializer_list<ConfigItem> args);
         ConfigItem operator[](const QString &key) const;
+        QList<ConfigItem> getAllItems() const;
     };
     
     class ConfigMgr : public QObject
